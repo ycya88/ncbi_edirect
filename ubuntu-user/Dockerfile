@@ -4,7 +4,7 @@
 ARG EDIRECT_VERSION=22.4.20240802
 
 # renovate: datasource=docker depName=ubuntu
-ARG UBUNTU_VERSION=24.10
+ARG UBUNTU_VERSION=oracular-20240617
 
 FROM ubuntu:${UBUNTU_VERSION} AS base
 
