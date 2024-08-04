@@ -1,0 +1,40 @@
+---
+name: Build and test docker image for edirect in alpine root mode
+
+on:
+  merge_group:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'alpine-root/**'
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  docker-build-edirect-alpine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: alpine-root
+          file: alpine-root/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: false
+          tags: |
+            ycya88/ncbi_edirect:pr-test

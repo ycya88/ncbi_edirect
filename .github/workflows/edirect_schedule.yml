@@ -1,0 +1,43 @@
+---
+name: Schedule Update Check (edirect)
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    permissions:
+        # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+        contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'actions@github.com'
+
+      - name: Make changes (e.g., run a script)
+        run: |
+          chmod +x ./fetch_latest.sh
+          ./fetch_latest.sh
+
+      - name: Check for changes
+        id: git_changes
+        run: |
+          git diff --exit-code || echo "changes"
+  
+      - name: Commit changes
+        if: steps.git_changes.outputs.changes == 'changes'
+        run: |
+          git add -A
+          git commit -m "Automated commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SECRET }}

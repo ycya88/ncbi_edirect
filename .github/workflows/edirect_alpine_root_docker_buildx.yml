@@ -1,0 +1,56 @@
+---
+name: Build and push docker image for edirect in alpine root mode
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+        - 'alpine-root/**'
+  workflow_dispatch:
+
+jobs:
+  docker-build-edirect-alpine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          username: ycya88
+          password: ${{ secrets.DOCKER_SECRET }}
+
+      - name: Extract version from Dockerfile
+        id: extract_version
+        run: |
+          cd alpine-root
+          ALPINE_VERSION=$(grep -oP '^ARG ALPINE_VERSION=\K.*' Dockerfile)
+          echo "ALPINE_VERSION=${ALPINE_VERSION}" >> $GITHUB_ENV
+          echo "ALPINE_VERSION=${ALPINE_VERSION}"
+          EDIRECT_VERSION=$(grep -oP '^ARG EDIRECT_VERSION=\K.*' Dockerfile)
+          echo "EDIRECT_VERSION=${EDIRECT_VERSION}" >> $GITHUB_ENV
+          echo "EDIRECT_VERSION=${EDIRECT_VERSION}"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: alpine-root
+          file: alpine-root/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: true
+          tags: |
+            ycya88/ncbi_edirect:${{ env.EDIRECT_VERSION }}-alpine${{ env.ALPINE_VERSION }}-root
+            ycya88/ncbi_edirect:${{ env.EDIRECT_VERSION }}-root
+            ycya88/ncbi_edirect:alpine${{ env.ALPINE_VERSION }}-root
+            ycya88/ncbi_edirect:alpine-root
