@@ -54,4 +54,3 @@ jobs:
             ycya88/ncbi_edirect:${{ env.EDIRECT_VERSION }}
             ycya88/ncbi_edirect:alpine${{ env.ALPINE_VERSION }}
             ycya88/ncbi_edirect:alpine
-            ycya88/ncbi_edirect:latest
