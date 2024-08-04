@@ -1,0 +1,9 @@
+---
+services:
+  edirect-alpine-root:
+    container_name: edirect-alpine-root
+    image: ycya88/ncbi_edirect:alpine-root
+    tty: true
+    build:
+      context: ./alpine-root
+      dockerfile: Dockerfile

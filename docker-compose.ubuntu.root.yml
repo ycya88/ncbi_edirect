@@ -1,0 +1,9 @@
+---
+services:
+  edirect-ubuntu-root:
+    container_name: edirect-ubuntu-root
+    image: ycya88/ncbi_edirect:ubuntu-root
+    tty: true
+    build:
+      context: ./ubuntu-root
+      dockerfile: Dockerfile

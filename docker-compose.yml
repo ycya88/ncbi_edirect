@@ -1,0 +1,9 @@
+---
+services:
+  edirect-ubuntu-user:
+    container_name: edirect-ubuntu-user
+    image: ycya88/ncbi_edirect:latest
+    tty: true
+    build:
+      context: ./ubuntu-user
+      dockerfile: Dockerfile

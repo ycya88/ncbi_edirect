@@ -1,0 +1,9 @@
+---
+services:
+  edirect-alpine-user:
+    container_name: edirect-alpine-user
+    image: ycya88/ncbi_edirect:alpine
+    tty: true
+    build:
+      context: ./alpine-user
+      dockerfile: Dockerfile

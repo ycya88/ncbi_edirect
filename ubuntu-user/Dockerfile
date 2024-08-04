@@ -41,3 +41,5 @@ ENV PATH="/home/${username}/edirect:${PATH}"
 ENV EMAIL=docker@ncbi.nlm.nih.gov
 
 USER ${username}
+
+CMD ["/bin/bash"]

@@ -32,3 +32,5 @@ COPY ./installconfirm /root
 ENV PATH="/root/edirect:${PATH}"
 
 USER root
+
+CMD ["/bin/bash"]

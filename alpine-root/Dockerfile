@@ -36,3 +36,5 @@ RUN mkdir -p /var/cache/apk \
     && rm -rf /var/cache/apk/*
 
 USER root
+
+CMD ["/bin/bash"]
