@@ -17,7 +17,6 @@ LABEL \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.os="ubuntu"
 
-# Install required packages
 RUN apt-get -y -m update \
     && apt-get install -y curl libxml-simple-perl libwww-perl libnet-perl build-essential \
     && rm -rf /var/lib/apt/lists/*
@@ -32,7 +31,6 @@ RUN groupadd ${grpname} \
     && mkdir -vp /home/${username} \
     && chown -Rc ${username}:${grpname} /home/${username}
 
-USER ${username}
 WORKDIR /home/${username}
 
 RUN sh -c "$(curl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh)"
@@ -42,4 +40,4 @@ COPY --chown=${username}:${grpname} installconfirm /home/${username}/
 ENV PATH="/home/${username}/edirect:${PATH}"
 ENV EMAIL=docker@ncbi.nlm.nih.gov
 
-CMD ["/bin/bash"]
+USER ${username}

@@ -17,7 +17,6 @@ LABEL \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.os="alpine"
 
-# Install required packages
 RUN apk update \
     && apk add --no-cache bash curl perl perl-xml-simple perl-libwww perl-net-mpd build-base coreutils \
     && rm -rf /var/cache/apk/*
@@ -32,7 +31,6 @@ RUN addgroup -S ${grpname} \
     && mkdir -vp /home/${username} \
     && chown -Rc ${username}:${grpname} /home/${username}
 
-USER ${username}
 WORKDIR /home/${username}/edirect
 
 RUN sh -c "$(curl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh)"
@@ -42,4 +40,4 @@ COPY --chown=${username}:${grpname} installconfirm /home/${username}/
 ENV PATH="/home/${username}/edirect:${PATH}"
 ENV EMAIL=docker@ncbi.nlm.nih.gov
 
-CMD ["/bin/bash"]
+USER ${username}

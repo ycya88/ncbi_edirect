@@ -17,7 +17,6 @@ LABEL \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.os="alpine"
 
-# Install required packages
 RUN apk update \
     && apk add --no-cache bash curl perl perl-xml-simple perl-libwww perl-net-mpd build-base coreutils \
     && rm -rf /var/cache/apk/*
@@ -32,7 +31,6 @@ COPY ./installconfirm /root
 
 ENV PATH="/root/edirect:${PATH}"
 
-# Clear and enable Alpine caching
 RUN mkdir -p /var/cache/apk \
     && ln -s /var/cache/apk /etc/apk/cache \
     && rm -rf /var/cache/apk/*

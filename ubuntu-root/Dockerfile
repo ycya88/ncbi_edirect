@@ -17,7 +17,6 @@ LABEL \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.os="ubuntu"
 
-# Install required packages
 RUN apt-get -y -m update \
     && apt-get install -y curl libxml-simple-perl libwww-perl libnet-perl build-essential \
     && rm -rf /var/lib/apt/lists/*
